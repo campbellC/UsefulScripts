@@ -10,7 +10,7 @@
   
 if (@ARGV) {
     my %TODOexists;
-    my $databaseEntryRE = qr/(\d+)([^\d]+)/; #This regex will check if a database entry is of the right form, which for now is "(Line number) (message)"
+    my $databaseEntryRE = qr/(\d+)( .+)/; #This regex will check if a database entry is of the right form, which for now is "(Line number) (message)"
     my @databaseOfTODOs;
     my $TODOre = qr/TODO\:(.+)/;
     
