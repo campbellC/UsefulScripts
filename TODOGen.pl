@@ -1,6 +1,5 @@
 #!/usr/bin/perl
-  #
-  # The traditional first program.
+
 
   # Strict and warnings are recommended.
   use strict;
@@ -9,31 +8,15 @@
   use Data::Dumper;
   
 if (@ARGV) {
-    my %TODOexists;
     my $databaseEntryRE = qr/(\d+)( .+)/; #This regex will check if a database entry is of the right form, which for now is "(Line number) (message)"
     my @databaseOfTODOs;
-    my $TODOre = qr/TODO\:(.+)/;
+    my $TODOre = qr/TODO\:(.+)/; #this regex controls what TODO:'s are picked up. Currently it is anything of the form TODO: 
     
 foreach my $arg (@ARGV) {
     open(my $fh, "<" , $arg) or die "cannot open < $arg \n"; #### Firstly we scan through any previous TODOs and hash the task so as to not double print
     print "Looking in file: " . $arg . " \n";
     
-    if (-e "TODOs" . $arg) {
-        open(my $save ,"<","TODOs" . $arg);
-          print "Looking at previous TODO list:  " . "TODOs" . $arg. "\n";
-        while (my $line = <$save>){
-            
-            if ($line =~ $databaseEntryRE) {
-                
-                push(@databaseOfTODOs, [$1,$2]);
-            }
-            
-            $TODOexists{$line} = 1;
-           
-        }
-        close $save;
-        
-    }
+    
     
     
     open(my $out ,">","TODOs" . $arg) or die "can't open outfile for $arg \n";
@@ -47,7 +30,7 @@ foreach my $arg (@ARGV) {
         
         ($string = $linenum . "$1\n" )if ($line =~  $TODOre );
         
-        unless (exists $TODOexists{$string} or $string eq '') { ###### Here we check if this is a previously stored TODO, and ignore it if so. the string eq '' condition is there
+        unless ($string eq '') { ###### Here we check if this is a previously stored TODO, and ignore it if so. the string eq '' condition is there
             push(@databaseOfTODOs, [$1,$2]) if $string =~ $databaseEntryRE ;
         } 
         
