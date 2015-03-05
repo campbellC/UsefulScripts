@@ -72,6 +72,6 @@ if (@ARGV) {
 	    
 
 	} else {
-	    print "You must provide webSites to block or unblock. \n";
-    	    print "Usage: webBlock [list of sites to block] -u [list of sites to unblock] \n";
+	    print "You must provide websites to block or unblock. \n";
+    	    print "Usage: perl webBlock.pl [list of sites to block] -u [list of sites to unblock] \n";
 }
