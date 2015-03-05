@@ -5,7 +5,6 @@
   use strict;
   use warnings;
   use List::Tuples qw(:all);
-  use Data::Dumper;
   my $webSite = qr/(www\..+\..+)/; #checks if this is a webSite "www.WEBSITE.BLA"
   my $webSiteWithoutWWW = qr/[^\.]+\.[^\.]+/; #lets us write "WEBSITE.BLA" and not worry about www.
   my $hostsEntry = qr/127\.0\.0\.1 (www\..+\..+)/; #This regex will check if this is an entry of the form "127.0.0.1 www.WEBSITE.BLA"
