@@ -28,9 +28,9 @@ foreach my $arg (@ARGV) {
         my $linenum = $. ;
         my $string = '';
         
-        ($string = $linenum . "$1\n" )if ($line =~  $TODOre );
+        ($string = $linenum . "$1\n" ) if ($line =~  $TODOre );
         
-        unless ($string eq '') { ###### Here we check if this is a previously stored TODO, and ignore it if so. the string eq '' condition is there
+        unless ($string eq '') { # the string eq '' condition is there to catch non matching lines
             push(@databaseOfTODOs, [$1,$2]) if $string =~ $databaseEntryRE ;
         } 
         
@@ -38,7 +38,7 @@ foreach my $arg (@ARGV) {
     
     
 
-    @databaseOfTODOs = sort { $a->[0] <=> $b->[0] } @databaseOfTODOs;
+    @databaseOfTODOs = sort { $a->[0] <=> $b->[0] } @databaseOfTODOs; #currently this has no effect, only will be useful when we add databasing.
 
     foreach (@databaseOfTODOs){
        print $out "$_->[0]$_->[1]\n";
