@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-
+#The purpose of this script is to search through a text file and find lines that end in "TODO: stuff to do" 
+#and record the stuff to do in a seperate file that records the line number where this TODO occurs.
 
   # Strict and warnings are recommended.
   use strict;
@@ -13,7 +14,7 @@ if (@ARGV) {
     my $TODOre = qr/TODO\:(.+)/; #this regex controls what TODO:'s are picked up. Currently it is anything of the form TODO: 
     
 foreach my $arg (@ARGV) {
-    open(my $fh, "<" , $arg) or die "cannot open < $arg \n"; #### Firstly we scan through any previous TODOs and hash the task so as to not double print
+    open(my $fh, "<" , $arg) or die "cannot open < $arg \n"; #
     print "Looking in file: " . $arg . " \n";
     
     
