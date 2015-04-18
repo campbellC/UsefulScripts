@@ -28,51 +28,60 @@ sub siteIsInHosts{
 
 
 if (@ARGV) {
-   my $blockFlag = 1; #true if we are blocking, false if we are unblocking
-      foreach my $arg (@ARGV) {
+
+	my $blockFlag = 1; #true if we are blocking, false if we are unblocking
+    foreach my $arg (@ARGV) {
 		if ($arg eq "-u"){
 			$blockFlag = 0;
 			next;
 		}
-	if ($arg =~ $webSiteWithoutWWW){
-		$arg = "www.". $arg;
-	}
-	if ($arg =~ $webSite) {
-		if ($blockFlag) {
-			print "Blocking " . $arg . "\n";
-			if (siteIsInHosts($arg)){
-				print $arg . " is already blocked\n";
-				next;
+		if ($arg eq "-s"){
+			open(my $hosts, "<", $hostsFile) or die "cannot open hosts file \n";
+			while(my $line = <$hosts>){
+				if ( $line =~ $hostsEntry){
+					print "$1\n";
+				}
+			}
+			close $hosts;
+			next;
+		}
+		if ($arg =~ $webSiteWithoutWWW){
+			$arg = "www.". $arg;
+		}
+		if ($arg =~ $webSite) {
+			if ($blockFlag) {
+				print "Blocking " . $arg . "\n";
+				if (siteIsInHosts($arg)){
+					print $arg . " is already blocked\n";
+					next;
+				} else {
+					open (my $hosts, ">>", $hostsFile) or die "cannot open hosts file";
+					print $hosts "127.0.0.1 " . $arg . "\n";
+					print $arg . " is now blocked.\n";
+					close($hosts) || warn "close Failed \n";		
+				}
 			} else {
-				open (my $hosts, ">>", $hostsFile) or die "cannot open hosts file";
- 				print $hosts "127.0.0.1 " . $arg . "\n";
-				print $arg . " is now blocked.\n";
-				close($hosts) || warn "close Failed \n";		
+				if (siteIsInHosts($arg)){
+					print "Unblocking " . $arg . "\n";
+					open (my $hosts, "<", $hostsFile) or die "cannot open hosts file";
+					my @file = <$hosts>;
+					close($hosts) || warn "close Failed \n";		
+					@file = grep(!/127\.0\.0\.1 $arg/, @file);
+					open ($hosts, ">", $hostsFile) or die "cannot open hosts file";
+					print $hosts @file;
+					close($hosts) || warn "close Failed \n";		
+					print $arg . " is now unblocked.\n";
+				} else {
+					print $arg . " is not currently blocked\n";
+					next;
+				}
 			}
 		} else {
-		if (siteIsInHosts($arg)){
-				print "Unblocking " . $arg . "\n";
-				open (my $hosts, "<", $hostsFile) or die "cannot open hosts file";
-				my @file = <$hosts>;
-				close($hosts) || warn "close Failed \n";		
-				@file = grep(!/127\.0\.0\.1 $arg/, @file);
-				open ($hosts, ">", $hostsFile) or die "cannot open hosts file";
-				print $hosts @file;
-				close($hosts) || warn "close Failed \n";		
-				print $arg . " is now unblocked.\n";
-		} else {
-				print $arg . " is not currently blocked\n";
-				next;
-	}
-}
-} else {
 			
 			print $arg . " is not a recognised webSite. Must be www.WEBSITE.BLA\n";
+		}
 	}
-	}
-	    
-
-	} else {
-	    print "You must provide websites to block or unblock. \n";
-    	    print "Usage: perl webBlock.pl [list of sites to block] -u [list of sites to unblock] \n";
+} else {
+	    print "You must provide websites to block or unblock, or give -s option to view currently blocked. \n";
+    	    print "Usage: perl webBlock.pl [list of sites to block] -u [list of sites to unblock] [-s] \n";
 }
