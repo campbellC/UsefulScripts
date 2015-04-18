@@ -3,7 +3,6 @@
 #it does this by looking for #include "DIR/HEADERFILE.h". It ignores self-dependency. It assumes you are in a directory storing each of these directories
   use strict;
   use warnings;
-  use List::Tuples qw(:all);
   use List::MoreUtils qw(uniq);
 if (@ARGV) {
 	my $outfile ='dependencyTree.txt';
@@ -14,7 +13,7 @@ if (@ARGV) {
 		   
 		   print $out "$arg:\n";
 		   opendir(MYDIR,$arg);
-		   my @files = grep(/.h$/,readdir(MYDIR));
+		   my @files = grep(/\.h$|\.cpp$/,readdir(MYDIR));
 		   foreach my $file (@files){
 			open(my $fh, "<" , "$arg/$file") or die "cannot open  $file \n"; #
 			print "Looking in file: " . $file . " \n";
