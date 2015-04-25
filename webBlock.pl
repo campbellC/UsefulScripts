@@ -1,7 +1,8 @@
 #!/usr/bin/perl 
 #This script takes in website names and adds them to the /etc/hosts/ file, redirecting them to 127.0.0.1. In this way it blocks access to the websites from the machine.
 #using the option flag -u will unblock all websites after it.
-
+#using the option flag -s will show all currently blocked websites
+#TODO: Either rewrite in python or learn Perls options handling libraries as this is currently not well structured at all and doesn't allow for -us type optioning.
   # Strict and warnings are recommended.
   use strict;
   use warnings;

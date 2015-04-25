@@ -3,6 +3,13 @@ import time
 import calendar
 import sys
 import re
+#This program uses the history database created by Google Chome to tell you what websites you've been visiting in the past number of hours (default is 24)
+#Currently it requires chrome to be closed to use it
+#TODO: Add a firefox flag?
+#TODO: Make it cross-platform
+#TODO:Are you absolutely sure there is no way user input would lead to damaging the database?!
+
+
 
 def chromeTimeToUnixTime(secs):
     return (secs - 11644473600000000) // 1000000 #number of seconds between 1 jan 1601 and 1 jan 1970

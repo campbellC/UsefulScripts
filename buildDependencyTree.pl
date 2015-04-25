@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 #This script writes to a file dependencyTree.txt a list of the directories given to it, with the dependencies inside these
 #it does this by looking for #include "DIR/HEADERFILE.h". It ignores self-dependency. It assumes you are in a directory storing each of these directories
+#TODO: actually build the tree and output it as such
+#TODO: handle directory trees and suggest new directory structures based on expanding circles
   use strict;
   use warnings;
   use List::MoreUtils qw(uniq);
