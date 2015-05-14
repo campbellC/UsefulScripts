@@ -62,7 +62,10 @@ if (@ARGV) {
 					close($hosts) || warn "close Failed \n";		
 				}
 			} else {
-				if (siteIsInHosts($arg)){
+				if ($arg =~ /reddit/){
+					print "nope\n";
+				}
+				elsif (siteIsInHosts($arg)){
 					print "Unblocking " . $arg . "\n";
 					open (my $hosts, "<", $hostsFile) or die "cannot open hosts file";
 					my @file = <$hosts>;
