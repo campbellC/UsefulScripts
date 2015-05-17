@@ -6,7 +6,7 @@
 
 
 # Version 1 takes directory and returns a basic tree of it's contents
-
+#import pdb; pdb.set_trace()
 import sys
 import os
 import networkx as nx
@@ -17,8 +17,9 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Short sample app')
 
-parser.add_argument('--ignore_git', action="store_true", default=True)
-parser.add_argument('--folder','-f', action="store", default=os.getcwd())
+parser.add_argument('--ignore_git', help="Ignore .git repositories",action="store_true", default=True)
+parser.add_argument('--folder','-f', help="Specify a folder to look at", action="store", default=os.getcwd())
+parser.add_argument('--labels','-l',help="Set to True to display labels on picture.",action="store_true",default = False)
 
 args = parser.parse_args()
 
@@ -41,6 +42,7 @@ def makeGraph(x=os.getcwd()):
         elif os.path.isdir(currentAbspath): # Now recusively create the tree
             H = makeGraph(currentAbspath)
             G.add_nodes_from(H)
+            G.add_edges_from(H.edges())
             G.add_edge(cwd, currentAbspath)
         else:
             raise ValueError("Must be a file")
@@ -52,14 +54,13 @@ def main():
                          lambda x :x[ x.rfind("/") + 1:])
     # write dot file to use with graphviz
     # run "dot -Tpng test.dot >test.png"
-    nx.write_dot(G,'test.dot')
-
+    #nx.write_dot(G,'test.dot')
     # same layout using matplotlib with no labels
     plt.title(args.folder)
-    pos=nx.graphviz_layout(G,prog='dot')
-    nx.draw_networkx(G,with_labels=True,pos=nx.spring_layout(G))
+    plt.axis('off')
+
+    nx.draw_networkx(G,with_labels=args.labels,pos=nx.graphviz_layout(G,prog='dot'))
     plt.savefig('graphing.png')
-    nx.write_graphml(G,'so.graphml')
 
 
 if __name__ == '__main__':
