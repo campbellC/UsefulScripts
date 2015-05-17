@@ -1,7 +1,7 @@
 UsefulScripts
 ===============
 A few scripts to speed up productivity.
-Do not use these scripts unless you understand them, I make no claims to there safety! I also have not packaged these up and they do have dependencies.
+Do not use these scripts unless you understand them, I make no claims to their safety! I also have not packaged these up and they do have dependencies.
 
 Each script's code should explain itself with comments. However, here's each scripts overview:
 
