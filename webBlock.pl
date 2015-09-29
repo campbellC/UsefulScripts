@@ -57,20 +57,21 @@ if (@ARGV) {
 					next;
 				} else {
 					open (my $hosts, ">>", $hostsFile) or die "cannot open hosts file";
+				
 					print $hosts "127.0.0.1 " . $arg . "\n";
 					print $arg . " is now blocked.\n";
+				
 					close($hosts) || warn "close Failed \n";		
 				}
 			} else {
-				if ($arg =~ /reddit/){
-					print "nope\n";
-				}
-				elsif (siteIsInHosts($arg)){
+				if (siteIsInHosts($arg)){
 					print "Unblocking " . $arg . "\n";
 					open (my $hosts, "<", $hostsFile) or die "cannot open hosts file";
 					my @file = <$hosts>;
 					close($hosts) || warn "close Failed \n";		
+				
 					@file = grep(!/127\.0\.0\.1 $arg/, @file);
+					
 					open ($hosts, ">", $hostsFile) or die "cannot open hosts file";
 					print $hosts @file;
 					close($hosts) || warn "close Failed \n";		
@@ -87,5 +88,5 @@ if (@ARGV) {
 	}
 } else {
 	    print "You must provide websites to block or unblock, or give -s option to view currently blocked. \n";
-    	    print "Usage: perl webBlock.pl [list of sites to block] -u [list of sites to unblock] [-s] \n";
+		print "Usage: perl webBlock.pl [list of sites to block] -u [list of sites to unblock] [-s] \n";
 }

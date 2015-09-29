@@ -1,4 +1,3 @@
-
 # This program is designed to build a graph of the directory structures of a
 # given folder.
 # If no argument is provided it takes the current directory as it's default.

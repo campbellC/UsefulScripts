@@ -16,14 +16,14 @@ def chromeTimeToUnixTime(secs):
 def unixTimeToChromeTime(secs):
     return 1000000 * secs + 11644473600000000
 def microSecondsToMinutes(msecs):
-    return (msecs / 1000000) / 60  
+    return (msecs / 1000000) / 60
 
 
 if __name__ == '__main__':
     timeSpan = 24
     if len(sys.argv) != 1:
         timeSpan = sys.argv[1]
-    
+
     currentTime = calendar.timegm(time.gmtime())
     currentTime = unixTimeToChromeTime(currentTime)
     timeSpan = int(timeSpan) * 3600 * 1000000
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     try:
         pass
         con = lite.connect('/Users/chrisCampbell/Library/Application Support/Google/Chrome/Default/History')
-    
+
         cur = con.cursor()
         cur.execute("SELECT urls.url,visit_duration FROM urls, visits WHERE urls.id = visits.url AND visit_time >" + str(startTime) +";")
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         websites = []
         while (len(rows) > 0):
             currentRow = rows.pop(0)
-            duration =0 
+            duration =0
             match = re.match(websiteRE,currentRow[0])
             if match:
                 duration += currentRow[1]
@@ -58,8 +58,8 @@ if __name__ == '__main__':
         for i,j in websites:
             if j > 0:
                 print i,j
-                
-        
+
+
 
     finally:
            if con:
