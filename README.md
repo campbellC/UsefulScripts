@@ -23,3 +23,7 @@ This program uses the history database created by Google Chome to tell you what 
 webBlock.pl:
 --------------------
 This script takes in website names and adds them to the /etc/hosts/ file, redirecting them to 127.0.0.1. In this way it blocks access to the websites from the machine. I have no idea if this works on anything other than OS X.
+
+thiefSnapper.py:
+--------------------
+This script when run will take a picture through the webcam and write it to disk, currently set to be in dropbox. Using launchctl you can set this to happen automatically and perhaps get images of anyone using your laptop.
