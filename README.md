@@ -26,7 +26,7 @@ This script takes in website names and adds them to the /etc/hosts/ file, redire
 
 thiefSnapper.py:
 --------------------
-This script when run will take a picture through the webcam and write it to disk, currently set to be in dropbox. Using launchctl you can set this to happen automatically and perhaps get images of anyone using your laptop.
+This script when run will take a picture through the webcam and write it to disk, currently set to be in dropbox. Using sleepwalker and launchctl you can set this to happen automatically and perhaps get images of anyone using your laptop.
 
 cropBook.sh:
 --------------------
