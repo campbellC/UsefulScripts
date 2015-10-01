@@ -27,3 +27,7 @@ This script takes in website names and adds them to the /etc/hosts/ file, redire
 thiefSnapper.py:
 --------------------
 This script when run will take a picture through the webcam and write it to disk, currently set to be in dropbox. Using launchctl you can set this to happen automatically and perhaps get images of anyone using your laptop.
+
+cropBook.sh:
+--------------------
+In conjunction with splitter.py and joiner.py, and relying on briss (http://briss.sourceforge.net/) this script allows you to crop pdf books for use on an ereader. As far as I know briss does not work well with "book" style latex files, where pages alternate their adjustment, this script works around this by splitting the pdfs in half, cropping, and then remerging them.
