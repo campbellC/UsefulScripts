@@ -8,9 +8,9 @@ Each script's code should explain itself with comments. However, here's each scr
 
 
 
-TODOGEN.pl
+todoGenerator
 -------------
-The purpose of this script is to search through a text file and find lines that end in "TODO: stuff to do" and record the stuff to do in a seperate file that records the line number where this TODO occurs.
+The purpose of this script is to search through a text file and find lines that end in "TODO: stuff to do" and record the stuff to do in a seperate file that records the line number where this TODO occurs. It also works on directories and has options for recursing through them etc.
 
 directoryTree.py:
 -------------------
