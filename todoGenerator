@@ -20,6 +20,8 @@ parser.add_argument("--maxDepth", help="state a max-depth for recusion",
 parser.add_argument("filename",
                     help="The file or directory you want to gather TODO's from")
 
+parser.add_argument("-extension", help="The extensions for compiled todo lists",
+                    default='.todo')
 args = parser.parse_args()
 
 todoRE = re.compile(r"TODO:(?P<todo>.+)")
@@ -88,13 +90,19 @@ def todoCompilerFromDirectory(directory):
 ##############################################################################
 if os.path.basename(args.filename) == "":
     raise ValueError("Expected filename")
-outfile = os.path.basename(args.filename) + '.todo'
+if args.filename == '.':
+    outfile = os.path.basename(os.getcwd()) + args.extension
+else:
+    outfile = os.path.basename(args.filename) + args.extension
 
 if os.path.isdir(args.filename):
     if not args.recursive:
         args.maxDepth = 0
     todos = ""
     for dirName, subdirList, fileList in walklevel(args.filename, args.maxDepth):
+        if '.git' in dirName:
+            del subdirList[:]
+            continue
         level = dirName.count(os.path.sep)
         todos += indent(todoCompilerFromDirectory(dirName), 4 * level)
     with open(outfile,'w') as f:
