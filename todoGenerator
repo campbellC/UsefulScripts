@@ -75,6 +75,8 @@ def todoCompilerFromDirectory(directory):
     fileTodos = ""
     for root,dirs,files in walklevel(directory,level=0):
         for filename in files:
+            if filename[-3:] == 'swp' or filename[-4:] == 'todo':
+                continue
             fullpath = os.path.join(root,filename)
             todos = todoCompilerFromFile(fullpath)
             if todos is not None:
