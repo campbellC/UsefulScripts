@@ -20,7 +20,7 @@ timeSpent.py:
 --------------
 This program uses the history database created by Google Chome to tell you what websites you've been visiting in the past number of hours (default is 24). Currently it requires chrome to be closed to use it.
 
-webBlock.pl:
+webBlock:
 --------------------
 This script takes in website names and adds them to the /etc/hosts/ file, redirecting them to 127.0.0.1. In this way it blocks access to the websites from the machine. I have no idea if this works on anything other than OS X.
 

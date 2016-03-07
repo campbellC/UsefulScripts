@@ -79,13 +79,15 @@ def unblock(website):
 ##############################################################################
 ######  Actual Script
 ##############################################################################
-if arguments.unblock:
-    for site in arguments.websites:
-        unblock(site)
-else:
-    for site in arguments.websites:
-        block(site)
-
+try:
+    if arguments.unblock:
+        for site in arguments.websites:
+            unblock(site)
+    else:
+        for site in arguments.websites:
+            block(site)
+except IOError:
+    print "Error: Blocking/Unblocking websites requires root access."
 
 if arguments.show:
     print "The following sites are blocked:"
