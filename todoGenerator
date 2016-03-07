@@ -4,7 +4,7 @@ import re
 import os
 
 
-
+#TODO: make output file optional - default should be don't print to outfile right?
 
 
 parser = argparse.ArgumentParser()
