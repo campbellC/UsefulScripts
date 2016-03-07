@@ -1,0 +1,97 @@
+#!/opt/local/bin/python
+#This script takes in website names and adds them to the /etc/hosts/ file,
+# redirecting them to 127.0.0.1. In this way it blocks access to the websites from the machine.
+
+import argparse
+import re
+
+hostsFile = '/etc/hosts'
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-u", "--unblock", help="Unblock a previously blocked website",
+                    action="store_true")
+parser.add_argument("websites", type=str, nargs='*',
+                    help="Websites to be blocked/unblocked")
+
+parser.add_argument("-s", "--show", help="Display currently blocked websites",
+                    action="store_true")
+
+arguments = parser.parse_args()
+
+
+websiteRE = r"(?P<webAddress>(?:www\.)?(?P<website>(?:[a-zA-Z0-9]+\.)+[a-zA-Z]+))"
+hostsEntryRE = re.compile(r"\s*127.0.0.1\s+" + websiteRE)
+websiteRE = re.compile(websiteRE)
+
+
+
+def websiteFunction(func):
+    def checkedFunction(website):
+        # This first checks this is a website and then sanitises it into
+        # proper 'www.' format
+        siteMatch = re.match(websiteRE, website)
+        if siteMatch is None:
+            raise ValueError("Must be a website")
+        ##### Sanitising starts here
+        sanitisedSite = 'www.' + siteMatch.group('website')
+        return func(sanitisedSite)
+    return checkedFunction
+
+
+@websiteFunction
+def isBlocked(website):
+    with open(hostsFile, 'r') as hosts:
+        for line in hosts:
+            hostMatch = re.match(hostsEntryRE, line)
+            if hostMatch:
+                if hostMatch.group('webAddress') == website:
+                    return True
+        else:
+            return False
+
+@websiteFunction
+def block(website):
+    if isBlocked(website):
+        return
+    with open(hostsFile, 'a') as hosts:
+        hosts.write('127.0.0.1    ' + website + '\n')
+
+@websiteFunction
+def unblock(website):
+    if not isBlocked(website):
+        return
+    hostsDB = []
+    with open(hostsFile, 'r') as hosts:
+        hostsDB = hosts.readlines()
+    with open(hostsFile, 'w') as hosts:
+        for line in hostsDB:
+            hostMatch = re.match(hostsEntryRE, line)
+            if hostMatch:
+                if not hostMatch.group('webAddress') == website:
+                    hosts.write(line )
+            else:
+                hosts.write(line )
+
+
+
+
+##############################################################################
+######  Actual Script
+##############################################################################
+if arguments.unblock:
+    for site in arguments.websites:
+        unblock(site)
+else:
+    for site in arguments.websites:
+        block(site)
+
+
+if arguments.show:
+    print "The following sites are blocked:"
+    with open(hostsFile, 'r') as hosts:
+        for line in hosts:
+            hostsMatch = re.match(hostsEntryRE, line)
+            if hostsMatch:
+                print '    ' + hostsMatch.group('webAddress')
+
