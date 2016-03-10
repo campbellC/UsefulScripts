@@ -52,27 +52,28 @@ def isBlocked(website):
 
 @websiteFunction
 def block(website):
-    if isBlocked(website):
-        return
-    with open(hostsFile, 'a') as hosts:
-        hosts.write('127.0.0.1    ' + website + '\n')
+    print "Attempting to block: " + website
+    if not isBlocked(website):
+        with open(hostsFile, 'a') as hosts:
+            hosts.write('127.0.0.1       ' + website + '\n')
+    print website + " is now blocked."
 
 @websiteFunction
 def unblock(website):
-    if not isBlocked(website):
-        return
-    hostsDB = []
-    with open(hostsFile, 'r') as hosts:
-        hostsDB = hosts.readlines()
-    with open(hostsFile, 'w') as hosts:
-        for line in hostsDB:
-            hostMatch = re.match(hostsEntryRE, line)
-            if hostMatch:
-                if not hostMatch.group('webAddress') == website:
+    print "Attempting to unblock: " + website
+    if isBlocked(website):
+        hostsDB = []
+        with open(hostsFile, 'r') as hosts:
+            hostsDB = hosts.readlines()
+        with open(hostsFile, 'w') as hosts:
+            for line in hostsDB:
+                hostMatch = re.match(hostsEntryRE, line)
+                if hostMatch:
+                    if not hostMatch.group('webAddress') == website:
+                        hosts.write(line )
+                else:
                     hosts.write(line )
-            else:
-                hosts.write(line )
-
+    print website + " is now unblocked."
 
 
 
