@@ -1,4 +1,4 @@
-#!/opt/local/bin/python
+#!/usr/bin/python
 #This script takes in website names and adds them to the /etc/hosts/ file,
 # redirecting them to 127.0.0.1. In this way it blocks access to the websites from the machine.
 
@@ -89,6 +89,8 @@ try:
             block(site)
 except IOError:
     print "Error: Blocking/Unblocking websites requires root access."
+except ValueError:
+    print "Error: Sites must be website names (e.g. 'www.example.com' or 'example.com')."
 
 if arguments.show:
     print "The following sites are blocked:"
